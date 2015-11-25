@@ -46,19 +46,8 @@ public class RongUtil {
            }
        });
    }
-    public static void initChatRoom(final String chatroomId){
-        RongIMClient.getInstance().joinChatRoom(chatroomId, -1, new RongIMClient.OperationCallback() {
-            @Override
-            public void onSuccess() {
-                Log.i("ly", "init chatroom success at roomId-> " + chatroomId);
-                RongUtil.sendEnterMessage(0, 1, chatroomId);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                Log.e("ly", "init chatroom onError errorCode-->" + errorCode);
-            }
-        });
+    public static void initChatRoom(final String chatroomId,RongIMClient.OperationCallback callback){
+        RongIMClient.getInstance().joinChatRoom(chatroomId, -1, callback);
     }
     /**
      * 发送文本消息

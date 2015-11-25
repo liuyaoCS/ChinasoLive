@@ -39,7 +39,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 	private TextView msg_number_text;
 
 	private int msg_count=0;
-	private int msg_number=1;
+	private int msg_number=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,19 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 		bindingPublish();//绑定推流器
 
 		RongIMClient.setOnReceiveMessageListener(RecorderActivity.this);
-		RongUtil.initChatRoom(mActivityId);
+		RongUtil.initChatRoom(mActivityId, new RongIMClient.OperationCallback() {
+			@Override
+			public void onSuccess() {
+				Log.i("ly","init room success");
+				msg_number++;
+				RongUtil.sendEnterMessage(0,msg_number,mActivityId);
+			}
+
+			@Override
+			public void onError(RongIMClient.ErrorCode errorCode) {
+				Log.e("ly", "init room error-->" + errorCode);
+			}
+		});
 
 	}
 
