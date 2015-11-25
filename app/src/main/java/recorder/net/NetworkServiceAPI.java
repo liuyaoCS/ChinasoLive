@@ -4,7 +4,7 @@ import java.util.List;
 
 import recorder.net.model.LiveVideoInfo;
 import recorder.net.model.StopVideoInfo;
-import recorder.net.model.UserInfo;
+import recorder.net.model.UserCheckInfo;
 import recorder.net.model.VideoIdInfo;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -19,7 +19,7 @@ public interface NetworkServiceAPI {
 
 	//create video
 	@GET("/video//createvideo")
-	void createVideo(@Query("uid") String uid, Callback<VideoIdInfo> cb);
+	void createVideo(@Query("uid") String uid, @Query("name") String name,@Query("avatar") String avatar,Callback<VideoIdInfo> cb);
 
 	//stop video
 	@GET("/video/deletevideo")
@@ -27,6 +27,6 @@ public interface NetworkServiceAPI {
 
 	//get token
 	@GET("/rong/createtoken")
-	void getToken(@Query("uid") String uid, Callback<UserInfo> cb);
+	void getToken(@Query("uid") String uid, Callback<UserCheckInfo> cb);
 
 }

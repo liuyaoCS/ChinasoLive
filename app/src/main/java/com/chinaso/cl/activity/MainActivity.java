@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,15 +22,15 @@ import com.chinaso.cl.fragment.DiscoveryFragment;
 import com.chinaso.cl.fragment.TopFragment;
 import com.chinaso.cl.fragment.SettingFragment;
 import com.chinaso.cl.fragment.HomeFragment;
-import com.lecloud.common.cde.LeCloud;
 
 
 import java.util.Random;
 
+import io.rong.imlib.RongIMClient;
 import recorder.net.NetworkService;
-import recorder.net.model.UserInfo;
+import recorder.net.model.UserCheckInfo;
 import recorder.net.model.VideoIdInfo;
-import recorder.pushflowdemo.RecorderDemoActivity;
+import recorder.activity.RecorderActivity;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -48,21 +49,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LeCloud.init(getApplicationContext());
+        //LeCloud.init(getApplicationContext());
         initView();
         initFragment();
         initResources();
 
-        Random random=new Random();
-        int i=random.nextInt(10);
-        createUser("user-"+i);
+//        Random random=new Random();
+//        int i=random.nextInt(10);
+        createUser(Constants.USERID);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RongIMClient.getInstance().logout();
+    }
+
     private void createUser(String name) {
-        NetworkService.getInstance().getToken(name, new Callback<UserInfo>() {
+        NetworkService.getInstance().getToken(name, new Callback<UserCheckInfo>() {
             @Override
-            public void success(UserInfo userInfo, Response response) {
+            public void success(UserCheckInfo userInfo, Response response) {
                 ClApp.TOKEN = userInfo.getToken();
-                Toast.makeText(MainActivity.this, "用户" + userInfo.getUid() + "登录成功", Toast.LENGTH_SHORT).show();
+                Log.i("ly", "get token success--" + ClApp.TOKEN);
+                checkToken();
             }
 
             @Override
@@ -70,6 +79,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 Toast.makeText(MainActivity.this, "获取token失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void checkToken() {
+        if(!TextUtils.isEmpty(ClApp.TOKEN)){
+            RongIMClient.connect(ClApp.TOKEN, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onTokenIncorrect() {
+                    //Connect Token 失效的状态处理，需要重新获取 Token
+                    Log.e("ly", "onTokenIncorrect");
+                    Toast.makeText(MainActivity.this, "认证失败", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(String userId) {
+                    //Log.i("MainActivity", "——onSuccess—-" + userId);
+                    //RongIMClient.setOnReceiveMessageListener(MainActivity.this);
+                    Log.i("ly", "——onSuccess—-" + userId);
+                    Toast.makeText(MainActivity.this, "用户" + userId + "登录成功", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    //Log.e("MainActivity", "——onError—-" + errorCode);
+                    Log.e("ly", "——onError—-" + errorCode);
+                    Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
     private void initView(){
 
@@ -126,11 +163,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.record_btn:
                 createVideo();
-//                Intent intent = new Intent(MainActivity.this, RecorderDemoActivity.class);
-//                //intent.putExtra("activityId", activityId);
-//                intent.putExtra("userId", Constants.userId);
-//                intent.putExtra("secretKey", Constants.secretKey);
-//                startActivity(intent);
                 break;
             case R.id.discovery_text:
                 discovery_text.setTextColor(menuTextBgCurrentColor);
@@ -149,13 +181,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void createVideo(){
-        NetworkService.getInstance().createVideo("ly", new Callback<VideoIdInfo>() {
+        NetworkService.getInstance().createVideo(Constants.USERID,Constants.NAME,Constants.AVATAR, new Callback<VideoIdInfo>() {
             @Override
             public void success(VideoIdInfo videoIdInfo, Response response) {
                 String activityId = videoIdInfo.getLetvId();
 
 
-                Intent intent = new Intent(MainActivity.this, RecorderDemoActivity.class);
+                Intent intent = new Intent(MainActivity.this, RecorderActivity.class);
                 intent.putExtra("activityId", activityId);
                 intent.putExtra("userId", Constants.userId);
                 intent.putExtra("secretKey", Constants.secretKey);
@@ -166,11 +198,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void failure(RetrofitError retrofitError) {
                 Log.e("ly", "create video  err:" + retrofitError);
-//                Intent intent = new Intent(MainActivity.this, RecorderDemoActivity.class);
-//                intent.putExtra("activityId", "A2015111900995");
-//                intent.putExtra("userId", Constants.userId);
-//                intent.putExtra("secretKey", Constants.secretKey);
-//                startActivity(intent);
             }
         });
 

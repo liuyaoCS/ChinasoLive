@@ -8,6 +8,17 @@ import java.io.Serializable;
 public class VideoIdInfo implements Serializable{
     public String letvId;
     public String result;
+    public String name;
+    public String avatar;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
     public  String getLetvId(){
         return  letvId;
     }

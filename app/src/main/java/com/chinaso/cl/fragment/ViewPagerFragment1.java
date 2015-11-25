@@ -10,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.chinaso.cl.R;
 import com.chinaso.cl.adapter.ChildAdapter;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import recorder.activitylive.MutlLiveActivity;
+import recorder.activity.PlayActivity;
 import recorder.net.NetworkService;
 import recorder.net.model.LiveVideoInfo;
 
@@ -90,7 +88,7 @@ public class ViewPagerFragment1 extends PullToRefreshFragment implements Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), MutlLiveActivity.class);
+        Intent intent = new Intent(getActivity(), PlayActivity.class);
         String activityId=mDatas.get(position-1);
         Log.i("ly","activiyId="+activityId);
 

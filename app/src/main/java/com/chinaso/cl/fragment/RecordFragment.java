@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 
 import com.chinaso.cl.R;
 import com.chinaso.cl.common.Constants;
-import recorder.pushflowdemo.RecorderDemoActivity;
+
+import recorder.activity.RecorderActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +30,7 @@ public class RecordFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_record, container, false);
 
-        Intent intent = new Intent(getActivity(), RecorderDemoActivity.class);
+        Intent intent = new Intent(getActivity(), RecorderActivity.class);
         intent.putExtra("activityId", Constants.activityID);
         intent.putExtra("userId", Constants.userId);
         intent.putExtra("secretKey", Constants.secretKey);
