@@ -26,20 +26,21 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="165dp"
         android:gravity="center_horizontal"
        >
+
+        <TextView
+            android:id="@+id/msg_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="人数"/>
 
         <TextView
             android:id="@+id/msg_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="人数"/>
-
-        <Button
-            android:id="@+id/msg_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="点赞数" />
     </LinearLayout>
 

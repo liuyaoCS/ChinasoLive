@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.chinaso.cl.R;
 import com.chinaso.cl.adapter.TopTabPageAdapter;
-import com.chinaso.cl.adapter.ViewPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class HomeFragment extends Fragment {
     private List<Fragment> getTestFragLists() {
         List<Fragment> lists=new ArrayList<Fragment>();
         for(int i=0;i<2;i++){
-            lists.add(new ViewPagerFragment1());
+            lists.add(new ViewPagerFragment());
             //lists.add(new ViewPagerFragment2());
         }
         return lists;

@@ -54,13 +54,13 @@ public class RongUtil {
      * @param str 消息内容
      * @param chatroomId 聊天室Id
      */
-    public static void sendTextMessage(String str, final String chatroomId) {
+    public static void sendTextMessage(final int count,final int number,String str, final String chatroomId) {
 
         JSONObject content=new JSONObject();
         try {
             content.put("type","Text");
-            content.put("count",0);
-            content.put("number",0);
+            content.put("count",count);
+            content.put("number",number);
             content.put("message",str);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -77,7 +77,7 @@ public class RongUtil {
      * @param number 当前人数
      * @param chatroomId 聊天室Id
      */
-    public static void sendLikeMessage(int count,int number, final String chatroomId) {
+    public static void sendLikeMessage(int count,int number, final String chatroomId,RongIMClient.SendMessageCallback callback) {
 
         JSONObject content=new JSONObject();
         try {
@@ -91,7 +91,7 @@ public class RongUtil {
         UserInfo userInfo=new UserInfo(Constants.USERID,Constants.NAME, Uri.parse(Constants.AVATAR));
         txtMsg.setUserInfo(userInfo);
 
-        sendMessage(txtMsg, chatroomId);
+        sendMessage(txtMsg, chatroomId,callback);
     }
 
     /**
@@ -152,6 +152,20 @@ public class RongUtil {
                 Log.i("ly", "onSuccess message-->" + integer);
             }
         }, new RongIMClient.ResultCallback<Message>() {
+            @Override
+            public void onSuccess(Message message) {
+                Log.i("ly", "onSuccess message-->-->" + message);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e("ly", "onError errorCode-->" + errorCode);
+            }
+        });
+    }
+    private static void sendMessage(TextMessage message,final String chatroomId,RongIMClient.SendMessageCallback callback) {
+
+        RongIMClient.getInstance().sendMessage(Conversation.ConversationType.CHATROOM, chatroomId, message, "", "", callback, new RongIMClient.ResultCallback<Message>() {
             @Override
             public void onSuccess(Message message) {
                 Log.i("ly", "onSuccess message-->-->" + message);

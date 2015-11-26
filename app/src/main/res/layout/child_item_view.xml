@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="5dp"
     android:layout_margin="5dp"
-    android:background="#e050e0">
-
-    <TextView
-        android:id="@+id/textview"       
+    android:background="#e0e0e0">
+    <ImageView
+        android:id="@+id/cover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:text="child fragment"
-        android:textSize="14sp"
-        android:textColor="#101010">
-    </TextView>
+        android:layout_height="150dp"
+        android:src="@drawable/card_bg"
+        android:scaleType="fitXY"/>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:padding="20dp"
+        >
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/uname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_marginLeft="10dp"
+            android:layout_alignTop="@id/avatar"
+            android:textSize="14sp"
+            android:textColor="#101010">
+        </TextView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

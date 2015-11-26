@@ -29,7 +29,6 @@ dependencies {
     compile project(':leCloudSDK_Release')
     //compile project(':letvRecorder')
     compile files('libs/letvrecorder.jar')
-    compile files('libs/volley.jar')
     compile files('libs/retrofit-1.9.0.jar')
     compile project(':IMLib')
 }

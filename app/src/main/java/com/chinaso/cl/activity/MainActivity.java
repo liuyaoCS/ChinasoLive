@@ -22,6 +22,7 @@ import com.chinaso.cl.fragment.DiscoveryFragment;
 import com.chinaso.cl.fragment.TopFragment;
 import com.chinaso.cl.fragment.SettingFragment;
 import com.chinaso.cl.fragment.HomeFragment;
+import com.chinaso.cl.image.ImageCacheManager;
 
 
 import java.util.Random;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     FragmentTransaction ft;
     Resources rs;
     int menuTextBgColor,menuTextBgCurrentColor;
+    private ImageCacheManager mImageCacheManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +55,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         initView();
         initFragment();
         initResources();
+        mImageCacheManager = new ImageCacheManager(this);
 
 //        Random random=new Random();
 //        int i=random.nextInt(10);
-        createUser(Constants.USERID);
+        createUser(Constants.USERID+new Random().nextInt(20));
     }
 
     @Override
@@ -64,7 +67,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onDestroy();
         RongIMClient.getInstance().logout();
     }
-
+    public ImageCacheManager getImageCacheManager() {
+        return mImageCacheManager;
+    }
     private void createUser(String name) {
         NetworkService.getInstance().getToken(name, new Callback<UserCheckInfo>() {
             @Override
@@ -181,7 +186,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void createVideo(){
-        NetworkService.getInstance().createVideo(Constants.USERID,Constants.NAME,Constants.AVATAR, new Callback<VideoIdInfo>() {
+        NetworkService.getInstance().createVideo(Constants.USERID,Constants.NAME,Constants.AVATAR,Constants.TITLE, new Callback<VideoIdInfo>() {
             @Override
             public void success(VideoIdInfo videoIdInfo, Response response) {
                 String activityId = videoIdInfo.getLetvId();

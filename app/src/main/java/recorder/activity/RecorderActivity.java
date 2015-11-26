@@ -1,10 +1,15 @@
 package recorder.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +22,19 @@ import com.letv.recorder.ui.RecorderView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 import recorder.net.NetworkService;
+import recorder.net.model.CoverInfo;
 import recorder.net.model.StopVideoInfo;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 public class RecorderActivity extends Activity implements RongIMClient.OnReceiveMessageListener{
 
@@ -37,6 +46,8 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 	private String mActivityId;
 	private TextView msg_count_text;
 	private TextView msg_number_text;
+	private TextView msg_text_show;
+	private ImageView msg_like_show;
 
 	private int msg_count=0;
 	private int msg_number=0;
@@ -58,6 +69,8 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 		rv = (RecorderView) findViewById(R.id.rv);//获取rootView
 		msg_count_text = (TextView) findViewById(R.id.msg_like);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
+		msg_text_show= (TextView) findViewById(R.id.msg_text_show);
+		msg_like_show= (ImageView) findViewById(R.id.msg_like_show);
 
 		//createVideo();
 		mActivityId=getIntent().getStringExtra("activityId");
@@ -75,7 +88,14 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 			public void onSuccess() {
 				Log.i("ly","init room success");
 				msg_number++;
-				RongUtil.sendEnterMessage(0,msg_number,mActivityId);
+				RecorderActivity.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						msg_count_text.setText("点赞数：" + msg_count);
+						msg_number_text.setText("人数：" + msg_number);
+					}
+				});
+				RongUtil.sendEnterMessage(0, msg_number, mActivityId);
 			}
 
 			@Override
@@ -83,6 +103,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 				Log.e("ly", "init room error-->" + errorCode);
 			}
 		});
+		uploadCover();
 
 	}
 
@@ -121,7 +142,39 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 			}
 		});
 	}
+	private void uploadCover(){
 
+		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+		photoPickerIntent.setType("image/*");
+		startActivityForResult(photoPickerIntent,0);
+		//NetworkService.getInstance().uploadFile(mActivityId,"videotitle",new );
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
+		cursor.moveToFirst();
+		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+		String fileSrc = cursor.getString(idx);
+
+		File cover=new File(fileSrc);
+
+		String mimeType = "image/jpg";
+		TypedFile fileToSend = new TypedFile(mimeType, cover);
+
+		NetworkService.getInstance().uploadFile(mActivityId, "videotitle", fileToSend, new Callback<CoverInfo>() {
+			@Override
+			public void success(CoverInfo coverInfo, Response response) {
+				Log.i("ly", "upload cover success");
+			}
+
+			@Override
+			public void failure(RetrofitError retrofitError) {
+				Log.i("ly", "upload cover err-->"+retrofitError);
+			}
+		});
+	}
 
 	@Override
 	protected void onResume() {
@@ -190,13 +243,23 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 			Log.d("ly", "onReceived-TextMessage:" + textMessage.getContent());
 			//msg_count.setText(textMessage.getContent());
 			try {
-				JSONObject ret=new JSONObject(textMessage.getContent());
-				//String type=ret.getString("type");
+				final JSONObject ret=new JSONObject(textMessage.getContent());
+				final String type=ret.getString("type");
+
 				msg_count=ret.getInt("count");
 				msg_number=ret.getInt("number");
+				RecorderActivity.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						msg_count_text.setText("点赞数：" + msg_count);
+						msg_number_text.setText("人数：" + msg_number);
+						if(type.equals("Text")){
+							msg_text_show.setText(ret.optString("message"));
+						}
+					}
+				});
 
-				msg_count_text.setText("点赞数："+msg_count);
-				msg_number_text.setText("人数："+msg_number);
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

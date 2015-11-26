@@ -110,7 +110,7 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 
 			@Override
 			public void onClick(View v) {
-				RongUtil.sendTextMessage("hello", mActivityId);
+				RongUtil.sendTextMessage(msg_count,msg_number,"hello", mActivityId);
 			}
 		});
 		this.mMsgLike.setOnClickListener(new OnClickListener() {
@@ -118,7 +118,23 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 			@Override
 			public void onClick(View v) {
 				msg_count++;
-				RongUtil.sendLikeMessage(msg_count,msg_number,mActivityId);
+				RongUtil.sendLikeMessage(msg_count,msg_number,mActivityId,new RongIMClient.SendMessageCallback() {
+					@Override
+					public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+						Log.e("ly", "onError errorCode-->" + errorCode);
+					}
+
+					@Override
+					public void onSuccess(Integer integer) {
+						Log.i("ly", "onSuccess message-->" + integer);
+						PlayActivity.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								msg_count_text.setText("点赞数："+msg_count);
+							}
+						});
+					}
+				});
 			}
 		});
 
@@ -160,8 +176,13 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 				msg_count=ret.getInt("count");
 				msg_number=ret.getInt("number");
 
-				msg_count_text.setText("点赞数："+msg_count);
-				msg_number_text.setText("人数："+msg_number);
+				PlayActivity.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						msg_count_text.setText("点赞数：" + msg_count);
+						msg_number_text.setText("人数：" + msg_number);
+					}
+				});
 				if(!isEntered){
 					msg_number++;
 					RongUtil.sendEnterMessage(msg_count,msg_number,mActivityId);

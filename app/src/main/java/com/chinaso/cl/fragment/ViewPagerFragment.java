@@ -17,7 +17,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import recorder.activity.PlayActivity;
 import recorder.net.NetworkService;
-import recorder.net.model.LiveVideoInfo;
+import recorder.net.model.LiveVideoListInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +29,13 @@ import retrofit.client.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewPagerFragment1 extends PullToRefreshFragment implements AdapterView.OnItemClickListener{
+public class ViewPagerFragment extends PullToRefreshFragment implements AdapterView.OnItemClickListener{
 
     PullToRefreshListView childListView;
-    List<String> mDatas;
-    public ViewPagerFragment1() {
+    List<LiveVideoListInfo> mDatas;
+    public ViewPagerFragment() {
         // Required empty public constructor
-        mDatas=new ArrayList<String>();
+        mDatas=new ArrayList<LiveVideoListInfo>();
     }
 
 
@@ -51,7 +51,8 @@ public class ViewPagerFragment1 extends PullToRefreshFragment implements Adapter
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 // 下拉的时候数据重置
-                sendPullFinishSignal();
+                //sendPullFinishSignal();
+                fetchDataFromPullDown();
             }
 
             // 上拉Pulling Up
@@ -70,13 +71,31 @@ public class ViewPagerFragment1 extends PullToRefreshFragment implements Adapter
     }
 
     private void loadVideoList() {
-        NetworkService.getInstance().getVideoList(new Callback<List<LiveVideoInfo>>() {
+        NetworkService.getInstance().getVideoList(new Callback<List<LiveVideoListInfo>>() {
             @Override
-            public void success(List<LiveVideoInfo> liveVideoInfos, Response response) {
-                for(LiveVideoInfo lvi:liveVideoInfos){
-                    mDatas.add(lvi.getLetvid());
+            public void success(List<LiveVideoListInfo> liveVideoInfos, Response response) {
+                for (LiveVideoListInfo lvi : liveVideoInfos) {
+                    mDatas.add(lvi);
+                }
+                childListView.setAdapter(new ChildAdapter(getActivity(), mDatas));
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+                Log.i("ly", "get video list err:" + retrofitError);
+            }
+        });
+    }
+    private void fetchDataFromPullDown(){
+        NetworkService.getInstance().getVideoList(new Callback<List<LiveVideoListInfo>>() {
+            @Override
+            public void success(List<LiveVideoListInfo> liveVideoInfos, Response response) {
+                mDatas.clear();
+                for(LiveVideoListInfo lvi:liveVideoInfos){
+                    mDatas.add(lvi);
                 }
                 childListView.setAdapter(new ChildAdapter(getActivity(),mDatas));
+                sendPullFinishSignal();
             }
 
             @Override
@@ -89,7 +108,7 @@ public class ViewPagerFragment1 extends PullToRefreshFragment implements Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), PlayActivity.class);
-        String activityId=mDatas.get(position-1);
+        String activityId=mDatas.get(position-1).getLetvid();
         Log.i("ly","activiyId="+activityId);
 
         intent.putExtra("activityID",activityId);
