@@ -1,9 +1,8 @@
-package recorder.activity;
+package recorder.upload;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chinaso.cl.R;
 import com.chinaso.cl.Utils.RongUtil;
@@ -36,9 +34,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 
-public class RecorderActivity extends Activity implements RongIMClient.OnReceiveMessageListener{
+public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiveMessageListener{
 
-	protected static final String TAG = "RecorderActivity";
+	protected static final String TAG = "FlushFlowActivity";
 	
 	private static LetvPublisher publisher;
 	private RecorderView rv;
@@ -82,13 +80,13 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 		initSkin();//初始化皮肤
 		bindingPublish();//绑定推流器
 
-		RongIMClient.setOnReceiveMessageListener(RecorderActivity.this);
+		RongIMClient.setOnReceiveMessageListener(FlushFlowActivity.this);
 		RongUtil.initChatRoom(mActivityId, new RongIMClient.OperationCallback() {
 			@Override
 			public void onSuccess() {
 				Log.i("ly","init room success");
 				msg_number++;
-				RecorderActivity.this.runOnUiThread(new Runnable() {
+				FlushFlowActivity.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						msg_count_text.setText("点赞数：" + msg_count);
@@ -103,7 +101,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 				Log.e("ly", "init room error-->" + errorCode);
 			}
 		});
-		uploadCover();
+		//uploadCover();
 
 	}
 
@@ -163,7 +161,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 		String mimeType = "image/jpg";
 		TypedFile fileToSend = new TypedFile(mimeType, cover);
 
-		NetworkService.getInstance().uploadFile(mActivityId, "videotitle", fileToSend, new Callback<CoverInfo>() {
+		NetworkService.getInstance().uploadFile(mActivityId, "videotitle", fileToSend.file(), new Callback<CoverInfo>() {
 			@Override
 			public void success(CoverInfo coverInfo, Response response) {
 				Log.i("ly", "upload cover success");
@@ -171,7 +169,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 
 			@Override
 			public void failure(RetrofitError retrofitError) {
-				Log.i("ly", "upload cover err-->"+retrofitError);
+				Log.e("ly", "upload cover err-->"+retrofitError);
 			}
 		});
 	}
@@ -248,7 +246,7 @@ public class RecorderActivity extends Activity implements RongIMClient.OnReceive
 
 				msg_count=ret.getInt("count");
 				msg_number=ret.getInt("number");
-				RecorderActivity.this.runOnUiThread(new Runnable() {
+				FlushFlowActivity.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						msg_count_text.setText("点赞数：" + msg_count);

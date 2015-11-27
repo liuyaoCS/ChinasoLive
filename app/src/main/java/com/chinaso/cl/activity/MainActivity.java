@@ -31,7 +31,7 @@ import io.rong.imlib.RongIMClient;
 import recorder.net.NetworkService;
 import recorder.net.model.UserCheckInfo;
 import recorder.net.model.VideoIdInfo;
-import recorder.activity.RecorderActivity;
+import recorder.upload.FlushFlowActivity;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 String activityId = videoIdInfo.getLetvId();
 
 
-                Intent intent = new Intent(MainActivity.this, RecorderActivity.class);
+                Intent intent = new Intent(MainActivity.this, FlushFlowActivity.class);
                 intent.putExtra("activityId", activityId);
                 intent.putExtra("userId", Constants.userId);
                 intent.putExtra("secretKey", Constants.secretKey);

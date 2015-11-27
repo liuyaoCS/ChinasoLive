@@ -34,6 +34,6 @@ public interface NetworkServiceAPI {
 
 	//upload cover
 	@GET("/uploadfile/cover")
-	void uploadFile(@Query("letvid") String letvid, @Query("coverTitle") String coverTitle,@Query("cover") TypedFile cover,Callback<CoverInfo> cb);
+	void uploadFile(@Query("letvid") String letvid, @Query("coverTitle") String coverTitle,@Query("cover") File cover,Callback<CoverInfo> cb);
 
 }

@@ -1,4 +1,4 @@
-package recorder.activity;
+package recorder.play;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chinaso.cl.R;
 import com.chinaso.cl.Utils.RongUtil;

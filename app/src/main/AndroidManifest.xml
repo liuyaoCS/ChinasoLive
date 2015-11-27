@@ -27,11 +27,11 @@
 
         <!-- letv-->
         <activity
-            android:name="recorder.activity.RecorderActivity"
+            android:name="recorder.upload.FlushFlowActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="recorder.activity.PlayActivity"
+            android:name="recorder.play.PlayActivity"
             android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
