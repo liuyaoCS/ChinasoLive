@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff5E5E5E"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
+	<TextView 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="暂无信号"
+	    android:textColor="#ffffffff"
+	    android:textSize="18dp"
+	    android:drawablePadding="20dp"
+	    android:drawableBottom="@drawable/action_replay"
+	    />
+</RelativeLayout>
+<!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/layout/action_layout_no_video.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/layout/action_layout_no_video.xml -->

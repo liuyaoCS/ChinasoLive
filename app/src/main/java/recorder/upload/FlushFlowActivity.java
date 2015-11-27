@@ -101,7 +101,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				Log.e("ly", "init room error-->" + errorCode);
 			}
 		});
-		//uploadCover();
+		uploadCover();
 
 	}
 
@@ -157,21 +157,22 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		String fileSrc = cursor.getString(idx);
 
 		File cover=new File(fileSrc);
+		Log.i("ly","file src-->"+fileSrc);
 
 		String mimeType = "image/jpg";
 		TypedFile fileToSend = new TypedFile(mimeType, cover);
 
-		NetworkService.getInstance().uploadFile(mActivityId, "videotitle", fileToSend.file(), new Callback<CoverInfo>() {
-			@Override
-			public void success(CoverInfo coverInfo, Response response) {
-				Log.i("ly", "upload cover success");
-			}
-
-			@Override
-			public void failure(RetrofitError retrofitError) {
-				Log.e("ly", "upload cover err-->"+retrofitError);
-			}
-		});
+//		NetworkService.getInstance().uploadFile(mActivityId, "videotitle", fileToSend.file(), new Callback<CoverInfo>() {
+//			@Override
+//			public void success(CoverInfo coverInfo, Response response) {
+//				Log.i("ly", "upload cover success");
+//			}
+//
+//			@Override
+//			public void failure(RetrofitError retrofitError) {
+//				Log.e("ly", "upload cover err-->"+retrofitError);
+//			}
+//		});
 	}
 
 	@Override

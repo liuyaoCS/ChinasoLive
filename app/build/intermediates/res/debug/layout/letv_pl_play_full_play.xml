@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/letv_pl_play_controller_play_btn" />
+<!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/layout/letv_pl_play_full_play.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/layout/letv_pl_play_full_play.xml -->

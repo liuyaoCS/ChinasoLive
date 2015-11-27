@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/iv_sound_one_active" android:state_focused="true"/>
+    <item android:drawable="@drawable/iv_sound_one_active" android:state_selected="true"/>
+    <item android:drawable="@drawable/iv_sound_one_active" android:state_pressed="true"/>
+    <item android:drawable="@drawable/iv_sound_one_normal"/>
+
+</selector><!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/drawable/selector_sound_one.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/drawable/selector_sound_one.xml -->

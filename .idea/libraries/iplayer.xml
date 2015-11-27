@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="iplayer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/leCloudSDK_Release/libs/iplayer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

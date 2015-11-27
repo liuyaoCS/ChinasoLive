@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>    
+<shape xmlns:android="http://schemas.android.com/apk/res/android">    
+    <corners android:radius="10dp" />    
+    <padding     
+        android:left="3dp"    
+        android:top="3dp"     
+        android:right="3dp"    
+        android:bottom="3dp" />    
+</shape>   <!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/drawable/round_corner_pop.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/drawable/round_corner_pop.xml -->

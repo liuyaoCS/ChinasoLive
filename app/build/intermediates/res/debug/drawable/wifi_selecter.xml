@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">  
+  <item android:maxLevel="70" android:drawable="@drawable/letv_pl_net_wifi" />  
+  <item android:maxLevel="100" android:drawable="@drawable/letv_pl_net_no" />  
+</level-list> 
+<!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/drawable/wifi_selecter.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/drawable/wifi_selecter.xml -->

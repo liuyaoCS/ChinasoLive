@@ -3,6 +3,7 @@ package com.letv.recorder.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -109,8 +110,8 @@ public class RecorderView extends RelativeLayout implements Callback {
     }
 
     public void stopAuto() {
-        this.isRecording = true;
-        this.startBtn.onClick((View)null);
+//        this.isRecording = true;
+//        this.startBtn.onClick((View) null);
     }
 
     public UiObservable getStartSubject() {
@@ -166,8 +167,11 @@ public class RecorderView extends RelativeLayout implements Callback {
             if(!RecorderView.this.isRecording) {
                 this.selectAngle();
             } else {
-                this.stopRecorder();
-                ((FlushFlowActivity)context).finish();
+
+                if(v!=null){
+                    this.stopRecorder();
+                    ((FlushFlowActivity)context).finish();
+                }
             }
 
         }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#000000"
+    android:id="@+id/play_video_su_container"
+    android:layout_height="match_parent" >
+
+</RelativeLayout><!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/layout/letv_play_video_layout.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/layout/letv_play_video_layout.xml -->

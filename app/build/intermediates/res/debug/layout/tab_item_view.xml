@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:padding="3dp" 
+        android:src="@mipmap/menu_home">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textview"       
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="首页"
+        android:textSize="10sp"
+        android:textColor="@drawable/menu_text_color">
+    </TextView>
+
+</LinearLayout><!-- From: file:/F:/project/work/ChinasoLive/app/src/main/res/layout/tab_item_view.xml -->

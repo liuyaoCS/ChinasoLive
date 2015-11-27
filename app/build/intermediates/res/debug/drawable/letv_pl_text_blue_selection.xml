@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true" android:color="@color/letv_color_ff3995d2"/>
+    <item android:state_selected="true" android:color="@color/letv_color_ff3995d2"/>
+    <item android:state_pressed="true" android:color="@color/letv_color_ff3995d2"/>
+    <item android:color="@color/letv_color_ff969696"/>
+
+</selector><!-- From: file:/F:/project/work/ChinasoLive/leCloudSDK_Release/src/main/res/drawable/letv_pl_text_blue_selection.xml --><!-- From: file:/F:/project/work/ChinasoLive/app/build/intermediates/exploded-aar/ChinasoLive/leCloudSDK_Release/unspecified/res/drawable/letv_pl_text_blue_selection.xml -->

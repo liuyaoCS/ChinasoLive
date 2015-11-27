@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="letvadlib_lecloud">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/leCloudSDK_Release/libs/letvadlib_lecloud.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

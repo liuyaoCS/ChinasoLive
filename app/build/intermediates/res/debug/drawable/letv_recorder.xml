@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/letv_recorder_open" android:state_focused="true"/>
+    <item android:drawable="@drawable/letv_recorder_open" android:state_focused="false" android:state_pressed="true"/>
+    <item android:drawable="@drawable/letv_recorder_stop" android:state_focused="false"/>
+
+</selector>
+<!-- From: file:/F:/project/work/ChinasoLive/app/src/main/res/drawable/letv_recorder.xml -->
