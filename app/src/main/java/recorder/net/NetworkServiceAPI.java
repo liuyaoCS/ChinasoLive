@@ -10,6 +10,9 @@ import recorder.net.model.UserCheckInfo;
 import recorder.net.model.VideoIdInfo;
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
+import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 
@@ -33,7 +36,8 @@ public interface NetworkServiceAPI {
 	void getToken(@Query("uid") String uid, Callback<UserCheckInfo> cb);
 
 	//upload cover
-	@GET("/uploadfile/cover")
-	void uploadFile(@Query("letvid") String letvid, @Query("coverTitle") String coverTitle,@Query("cover") File cover,Callback<CoverInfo> cb);
+	@Multipart
+	@POST("/uploadfile/cover")
+	void uploadFile(@Part("letvid") String letvid, @Part("coverTitle") String coverTitle,@Part("cover") TypedFile cover,Callback<CoverInfo> cb);
 
 }
