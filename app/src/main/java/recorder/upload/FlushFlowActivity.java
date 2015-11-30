@@ -159,7 +159,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		File cover=new File(fileSrc);
 		Log.i("ly","file src-->"+fileSrc);
 
-		String mimeType = "image/jpg";
+		String mimeType = "image/*";
 		TypedFile fileToSend = new TypedFile(mimeType, cover);
 
 		NetworkService.getInstance().uploadFile(mActivityId, "chinaso-video", fileToSend, new Callback<CoverInfo>() {
