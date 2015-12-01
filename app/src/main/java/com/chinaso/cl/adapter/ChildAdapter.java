@@ -56,8 +56,8 @@ public class ChildAdapter extends BaseAdapter{
         }
         viewHolder.uname.setText(mDataSets.get(position).getName());
         ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getAvatar(), viewHolder.avatar, 0, 0);
-        ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getCover(),viewHolder.cover,R.mipmap.cover,R.mipmap.cover);
-        //viewHolder.cover.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.cover));
+        //((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getCover(),viewHolder.cover,0,0);
+        viewHolder.cover.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.cover));
         return convertView;
     }
     class ViewHolder{

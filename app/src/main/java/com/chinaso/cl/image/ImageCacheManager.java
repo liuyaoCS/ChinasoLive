@@ -22,7 +22,7 @@ public class ImageCacheManager {
 
 	public ImageCacheManager(Context context){
 		mContext=context;
-		MEM_CACHE_SIZE = 1024 * 1024 * ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() / 8; //1024 * 1024 *8
+		MEM_CACHE_SIZE = 1024 * 1024 * ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass(); //1024 * 1024 *8
 
 		mImageLruCache = new ImageLruCache(context,MEM_CACHE_SIZE,false);
 		mImageLoader = new ImageLoader(Volley.newRequestQueue(mContext),mImageLruCache);

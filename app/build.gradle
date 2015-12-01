@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    buildToolsVersion "22.0.0"
 
     defaultConfig {
         applicationId "com.chinaso.cl"
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         renderscriptTargetApi 18
@@ -22,8 +22,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.0.0'
-    compile 'com.android.support:appcompat-v7:19.0.0'
+    compile 'com.android.support:support-v4:22.0.0'
+    //compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(':PullToRefreshLibrary')
     compile project(':ViewPagerIndicatorLibrary')
     compile project(':leCloudSDK_Release')
