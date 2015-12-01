@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,8 +61,8 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 
 	private int SX, SY;
 	private int DX ,DY;
-	public static int DIS_X=100;
-	public static int DIS_Y=800;
+	public static int DIS_X=60;
+	public static int DIS_Y=600;
 	public static int DELAY=500;
 	public static int ANIM_DURATION=1000;
 	private RelativeLayout container;
@@ -127,28 +128,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		uploadCover();
 	}
 
-//	private void createVideo(){
-//		NetworkService.getInstance().createVideo("ly", new Callback<VideoIdInfo>() {
-//			@Override
-//			public void success(VideoIdInfo videoIdInfo, Response response) {
-//				mActivityId = videoIdInfo.getLetvId();
-//				//mActivityId = "A2015111900995";
-//				String userId = getIntent().getStringExtra("userId");
-//				String secretKey = getIntent().getStringExtra("secretKey");
-//				LetvPublisher.init(mActivityId, userId, secretKey);
-//
-//				initPublish();//初始化推流器
-//				initSkin();//初始化皮肤
-//				bindingPublish();//绑定推流器
-//			}
-//
-//			@Override
-//			public void failure(RetrofitError retrofitError) {
-//				Log.e("ly", "create video  err:" + retrofitError);
-//			}
-//		});
-//
-//	}
+
 	private void stopVideo(){
 		NetworkService.getInstance().stopVideo(mActivityId, new Callback<StopVideoInfo>() {
 			@Override
@@ -163,11 +143,9 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		});
 	}
 	private void uploadCover(){
-
 		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 		photoPickerIntent.setType("image/*");
 		startActivityForResult(photoPickerIntent,0);
-		//NetworkService.getInstance().uploadFile(mActivityId,"videotitle",new );
 	}
 
 	@Override
@@ -280,7 +258,6 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		if (messageContent instanceof TextMessage) {//文本消息
 			TextMessage textMessage = (TextMessage) messageContent;
 			Log.d("ly", "onReceived-TextMessage:" + textMessage.getContent());
-			//msg_count.setText(textMessage.getContent());
 			try {
 				final JSONObject ret=new JSONObject(textMessage.getContent());
 				final String type=ret.getString("type");
@@ -324,6 +301,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 
 		final ValueAnimator valueAnimator = ValueAnimator.ofObject(new BezierEvaluator(SX,SY,DX,DY), new PointF(SX, SY), new PointF(DX, DY));
 		valueAnimator.setDuration(ANIM_DURATION);
+		valueAnimator.setInterpolator(new AccelerateInterpolator());
 		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator animation) {
@@ -333,8 +311,8 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				iv.setX(pointF.x);
 				iv.setY(pointF.y);
 				iv.setAlpha((pointF.y - DY) / (SY - DY));
-				iv.setScaleX((pointF.y - DY) / (SY - DY));
-				iv.setScaleY((pointF.y - DY) / (SY - DY));
+				iv.setScaleX(((pointF.y - DY) / (SY - DY)+1)/2);
+				iv.setScaleY(((pointF.y - DY) / (SY - DY)+1)/2);
 
 			}
 
@@ -346,7 +324,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				super.onAnimationEnd(animation);
 				container.removeView(iv);
 				iv.setAlpha(0);
-				valueAnimator.cancel();
+//				valueAnimator.cancel();
 			}
 		});
 		valueAnimator.start();
