@@ -38,7 +38,7 @@
     <include
         android:id="@+id/layout_floating"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_alignBottom="@id/layout_player_view"
         android:layout_alignTop="@id/layout_player_view"
         layout="@layout/layout_floating" />

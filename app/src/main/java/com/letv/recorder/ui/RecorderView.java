@@ -12,9 +12,11 @@ import android.view.SurfaceHolder.Callback;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.letv.recorder.ui.logic.UiObservable;
+import com.letv.recorder.util.Log;
 import com.letv.recorder.util.NetworkUtils;
 import com.letv.recorder.util.ReUtils;
 import com.letv.recorder.util.ScreenUtils;
@@ -31,6 +33,7 @@ public class RecorderView extends RelativeLayout implements Callback {
     private boolean isRecording;
     private SurfaceView surfaceView;
     private RelativeLayout surfaceContainer;
+    private TextView peopleCountTextView;
 
     public RecorderView(Context context) {
         super(context);
@@ -43,7 +46,9 @@ public class RecorderView extends RelativeLayout implements Callback {
         this.context = context;
         this.initView();
     }
-
+    public TextView getPeopleCountView(){
+        return this.peopleCountTextView;
+    }
     private void initView() {
         LayoutInflater.from(this.context).inflate(ReUtils.getLayoutId(this.context, "letv_recorder_main_layout"), this);
         this.topContainer = (FrameLayout)this.findViewById(ReUtils.getId(this.context, "letv_recorder_top_container"));
@@ -80,6 +85,12 @@ public class RecorderView extends RelativeLayout implements Callback {
         this.bottomContainer.addView(bottomView, params);
         if(bottomView instanceof Observer) {
             this.startBtn.getStartSubject().addObserver((Observer)bottomView);
+        }
+        if(bottomView instanceof RecorderBottomView){
+            this.peopleCountTextView=((RecorderBottomView) bottomView).peopleCount;
+            Log.i("ly","found peopleCoutView");
+        }else{
+            Log.e("ly","not found peopleCoutView");
         }
 
     }

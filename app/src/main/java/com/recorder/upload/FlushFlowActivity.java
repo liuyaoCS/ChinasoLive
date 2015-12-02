@@ -114,6 +114,10 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 					public void run() {
 						msg_count_text.setText("点赞数：" + msg_count);
 						msg_number_text.setText("人数：" + msg_number);
+
+						if(rv.getPeopleCountView()!=null){
+							rv.getPeopleCountView().setText(""+msg_number);
+						}
 					}
 				});
 				RongUtil.sendEnterMessage(0, msg_number, mActivityId);
@@ -264,6 +268,9 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 					public void run() {
 						msg_count_text.setText("点赞数：" + msg_count);
 						msg_number_text.setText("人数：" + msg_number);
+						if(rv.getPeopleCountView()!=null){
+							rv.getPeopleCountView().setText(""+msg_number);
+						}
 						if(type.equals("Text")){
 							String name=textMessage.getUserInfo().getName();
 							if(TextUtils.isEmpty(name)){

@@ -25,7 +25,7 @@ import java.util.Observer;
 public class RecorderBottomView extends RelativeLayout implements Observer {
     private static final String TAG = "RecorderBottomView";
     private Context context;
-    private TextView peopleCount;
+    public TextView peopleCount;
     private TextView recorderTime;
     private ImageView thumd;
     private StringBuilder mFormatBuilder = new StringBuilder();
@@ -108,8 +108,8 @@ public class RecorderBottomView extends RelativeLayout implements Observer {
             case 11:
                 this.handler.post(new Runnable() {
                     public void run() {
-                        String countPeople = bundle.getString("count");
-                        RecorderBottomView.this.peopleCount.setText(countPeople);
+//                        String countPeople = bundle.getString("count");
+//                        RecorderBottomView.this.peopleCount.setText(countPeople);
                     }
                 });
         }
