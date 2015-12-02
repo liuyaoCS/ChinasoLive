@@ -59,11 +59,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="40dp"
                     android:gravity="center"
-                    android:text=""
                     android:padding="3dp"
-                    android:background="@drawable/comment_bg"/>
+                    android:background="#f0f0f0"/>
+
 
                 <ImageView
                     android:id="@+id/msg_like_show"
@@ -72,7 +72,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="80dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/click_like"
+                    android:src="@mipmap/click_default"
                    >
                 </ImageView>
             </RelativeLayout>

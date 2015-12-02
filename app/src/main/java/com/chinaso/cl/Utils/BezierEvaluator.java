@@ -24,10 +24,10 @@ public class BezierEvaluator implements TypeEvaluator<PointF> {
 		PointF point0 = (PointF)startValue;
 
 		PointF point1 = new PointF();
-		point1.set(SY, SX);
+		point1.set(SX+50, (SY+DY)/2);
 
 		PointF point2 = new PointF();
-		point2.set(DY, DX);
+		point2.set(SX-50, (SY+DY)/2);
 
 		PointF point3 = (PointF)endValue;
 

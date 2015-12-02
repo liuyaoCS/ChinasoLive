@@ -1,25 +1,22 @@
 package recorder.upload;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chinaso.cl.R;
-import com.chinaso.cl.Utils.BezierEvaluator;
+import com.chinaso.cl.Utils.LikeAnimationUtil;
 import com.chinaso.cl.Utils.RongUtil;
 import com.letv.recorder.controller.LetvPublisher;
 import com.letv.recorder.ui.RecorderSkin;
@@ -29,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Random;
 
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
@@ -64,12 +60,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	public static int DIS_X=60;
 	public static int DIS_Y=600;
 	public static int DELAY=500;
-	public static int ANIM_DURATION=1000;
 	private RelativeLayout container;
-	private int[] heartIds=new int[]{R.mipmap.heart0,R.mipmap.heart1,R.mipmap.heart2,
-			R.mipmap.heart3,R.mipmap.heart4,R.mipmap.heart5,
-			R.mipmap.heart6,R.mipmap.heart7,R.mipmap.heart8,
-			R.mipmap.heart9,R.mipmap.heart10,R.mipmap.heart11};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +186,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				int y = location[1];
 				SX = x;
 				SY = y;
-				DX=SX+DIS_X;
+				DX=SX;
 				DY=SY-DIS_Y;
 				Log.i("ly","SX,SY = "+SX+","+SY);
 			}
@@ -256,7 +247,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 
 
 		if (messageContent instanceof TextMessage) {//文本消息
-			TextMessage textMessage = (TextMessage) messageContent;
+			final TextMessage textMessage = (TextMessage) messageContent;
 			Log.d("ly", "onReceived-TextMessage:" + textMessage.getContent());
 			try {
 				final JSONObject ret=new JSONObject(textMessage.getContent());
@@ -270,10 +261,15 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 						msg_count_text.setText("点赞数：" + msg_count);
 						msg_number_text.setText("人数：" + msg_number);
 						if(type.equals("Text")){
-							msg_text_show.setText(ret.optString("message"));
+							String name=textMessage.getUserInfo().getName();
+							if(TextUtils.isEmpty(name)){
+								name="匿名";
+							}
+							msg_text_show.setText(name+":"+ret.optString("message"));
 						}
 						if(type.equals("Like")){
-							excuteAnimation();
+							LikeAnimationUtil.excuteAnimation(FlushFlowActivity.this,container,R.id.msg_like_show,
+									SX,SY,DX,DY);
 						}
 					}
 				});
@@ -283,51 +279,10 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				e.printStackTrace();
 			}
 		} else {
-			Log.d("ly", "onReceived-其他消息，自己来判断处理");
+			Log.d("ly", "onReceived--其他消息，自己来判断处理");
 		}
 
 		return false;
-	}
-
-	private void excuteAnimation() {
-		final ImageView iv = new ImageView(FlushFlowActivity.this);
-		Random random = new Random();
-		int index = random.nextInt(heartIds.length);
-		iv.setImageDrawable(getResources().getDrawable(heartIds[index]));
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		lp.addRule(RelativeLayout.ALIGN_RIGHT, R.id.msg_like_show);
-		lp.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.msg_like_show);
-		container.addView(iv, lp);
-
-		final ValueAnimator valueAnimator = ValueAnimator.ofObject(new BezierEvaluator(SX,SY,DX,DY), new PointF(SX, SY), new PointF(DX, DY));
-		valueAnimator.setDuration(ANIM_DURATION);
-		valueAnimator.setInterpolator(new AccelerateInterpolator());
-		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				PointF pointF = (PointF) animation.getAnimatedValue();
-				Log.i("ly", "pointF-->" + pointF.x + "," + pointF.y);
-
-				iv.setX(pointF.x);
-				iv.setY(pointF.y);
-				iv.setAlpha((pointF.y - DY) / (SY - DY));
-				iv.setScaleX(((pointF.y - DY) / (SY - DY)+1)/2);
-				iv.setScaleY(((pointF.y - DY) / (SY - DY)+1)/2);
-
-			}
-
-		});
-
-		valueAnimator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				super.onAnimationEnd(animation);
-				container.removeView(iv);
-				iv.setAlpha(0);
-//				valueAnimator.cancel();
-			}
-		});
-		valueAnimator.start();
 	}
 
 }
