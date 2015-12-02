@@ -12,11 +12,12 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chinaso.cl.R;
-import com.chinaso.cl.Utils.LikeAnimationUtil;
+import com.chinaso.cl.Utils.AnimationUtil;
 import com.chinaso.cl.Utils.RongUtil;
 import com.letv.recorder.controller.LetvPublisher;
 import com.letv.recorder.ui.RecorderSkin;
@@ -42,15 +43,18 @@ import retrofit.mime.TypedFile;
 public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiveMessageListener{
 
 	protected static final String TAG = "FlushFlowActivity";
-	
+	private static final int MSG_CALLAPSE_COMMENT =1 ;
+	private static final int CALLAPSE_DELAY = 3000;
+
 	private static LetvPublisher publisher;
 	private RecorderView rv;
 	private RecorderSkin recorderSkin;
 	private String mActivityId;
 	private TextView msg_count_text;
 	private TextView msg_number_text;
-	private TextView msg_text_show;
+	//private TextView msg_text_show;
 	private ImageView msg_like_show;
+	private LinearLayout comment_container;
 
 	private int msg_count=0;
 	private int msg_number=0;
@@ -60,7 +64,9 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	public static int DIS_X=60;
 	public static int DIS_Y=600;
 	public static int DELAY=500;
-	private RelativeLayout container;
+	private RelativeLayout likeContainer;
+
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,20 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		setContentView(R.layout.activity_recorder);
 		Log.i("ly", "onCreate");
 
+		mHandler=new Handler(new Handler.Callback() {
+			@Override
+			public boolean handleMessage(android.os.Message msg) {
+				switch (msg.what){
+					case MSG_CALLAPSE_COMMENT:
+						AnimationUtil.executeCommentCollapseAnimation(comment_container);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+
 		initView();
 		initLetv();
 		initRongyun();
@@ -88,9 +108,10 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		rv = (RecorderView) findViewById(R.id.rv);//获取rootView
 		msg_count_text = (TextView) findViewById(R.id.msg_like);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
-		msg_text_show= (TextView) findViewById(R.id.msg_text_show);
+		//msg_text_show= (TextView) findViewById(R.id.msg_text_show);
 		msg_like_show= (ImageView) findViewById(R.id.msg_like_show);
-		container= (RelativeLayout) findViewById(R.id.container);
+		likeContainer = (RelativeLayout) findViewById(R.id.container);
+		comment_container= (LinearLayout) findViewById(R.id.comment_container);
 	}
 	private void initLetv(){
 		mActivityId=getIntent().getStringExtra("activityId");
@@ -115,8 +136,8 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 						msg_count_text.setText("点赞数：" + msg_count);
 						msg_number_text.setText("人数：" + msg_number);
 
-						if(rv.getPeopleCountView()!=null){
-							rv.getPeopleCountView().setText(""+msg_number);
+						if (rv.getPeopleCountView() != null) {
+							rv.getPeopleCountView().setText("" + msg_number);
 						}
 					}
 				});
@@ -151,6 +172,9 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if(data==null){
+			return;
+		}
 		Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
 		cursor.moveToFirst();
 		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
@@ -186,7 +210,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 			recorderSkin.onResume();
 		}
 
-		new Handler().postDelayed(new Runnable() {
+		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				int[] location = new int[2];
@@ -195,9 +219,9 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				int y = location[1];
 				SX = x;
 				SY = y;
-				DX=SX;
-				DY=SY-DIS_Y;
-				Log.i("ly","SX,SY = "+SX+","+SY);
+				DX = SX;
+				DY = SY - DIS_Y;
+				Log.i("ly", "SX,SY = " + SX + "," + SY);
 			}
 		}, DELAY);
 
@@ -276,11 +300,14 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 							if(TextUtils.isEmpty(name)){
 								name="匿名";
 							}
-							msg_text_show.setText(name+":"+ret.optString("message"));
+							String str=name+":"+ret.optString("message");
+							AnimationUtil.addCommentItemView(FlushFlowActivity.this,comment_container,str);
+							mHandler.removeMessages(MSG_CALLAPSE_COMMENT);
+							mHandler.sendEmptyMessageDelayed(MSG_CALLAPSE_COMMENT,CALLAPSE_DELAY);
 						}
 						if(type.equals("Like")){
-							LikeAnimationUtil.excuteAnimation(FlushFlowActivity.this,container,R.id.msg_like_show,
-									SX,SY,DX,DY);
+							AnimationUtil.executeLikeAnimation(FlushFlowActivity.this, likeContainer, R.id.msg_like_show,
+									SX, SY, DX, DY);
 						}
 					}
 				});

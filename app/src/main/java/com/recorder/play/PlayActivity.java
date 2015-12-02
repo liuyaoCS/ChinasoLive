@@ -14,11 +14,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chinaso.cl.R;
-import com.chinaso.cl.Utils.LikeAnimationUtil;
+import com.chinaso.cl.Utils.AnimationUtil;
 import com.chinaso.cl.Utils.RongUtil;
 import com.lecloud.common.base.util.Logger;
 import com.lecloud.skin.PlayerStateCallback;
@@ -33,13 +34,17 @@ import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
 
 public class PlayActivity extends Activity implements RongIMClient.OnReceiveMessageListener{
+
+	private static final int MSG_CALLAPSE_COMMENT =1 ;
+	private static final int CALLAPSE_DELAY = 3000;
+
 	private RelativeLayout mPlayerLayoutView;
 	private MultLivePlayCenter mPlayerView;
 
 	private EditText mMsgEdit;
 	private Button mMsgSend;
 
-	private TextView mMsgShow;
+	//private TextView mMsgShow;
 	private ImageView mMsgLike;
 
 	private TextView msg_number_text;
@@ -61,6 +66,8 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 	public static int DELAY=500;
 
 	private RelativeLayout container;
+	private Handler mHandler;
+	private LinearLayout comment_container;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,19 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_play);
 
+		mHandler=new Handler(new Handler.Callback() {
+			@Override
+			public boolean handleMessage(android.os.Message msg) {
+				switch (msg.what){
+					case MSG_CALLAPSE_COMMENT:
+						AnimationUtil.executeCommentCollapseAnimation(comment_container);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
 		Intent intent = getIntent();
 		mActivityId = intent.getStringExtra("activityID");
 		isHLS = intent.getBooleanExtra("isHLS", false);
@@ -131,9 +151,10 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 
 	private void initView(){
 		container= (RelativeLayout) findViewById(R.id.container);
+		comment_container= (LinearLayout) findViewById(R.id.comment_container);
 		msg_count_text= (TextView) findViewById(R.id.msg_count);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
-		mMsgShow= (TextView) findViewById(R.id.msg_text_show);
+		//mMsgShow= (TextView) findViewById(R.id.msg_text_show);
 		mMsgLike = (ImageView) this.findViewById(R.id.msg_like);
 		mMsgEdit= (EditText) findViewById(R.id.msg_edit);
 
@@ -142,7 +163,11 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 
 			@Override
 			public void onClick(View v) {
-				mMsgShow.setText("我:"+mMsgEdit.getText().toString());
+				//mMsgShow.setText("我:"+mMsgEdit.getText().toString());
+				String str="我:"+mMsgEdit.getText().toString();
+				AnimationUtil.addCommentItemView(PlayActivity.this,comment_container,str);
+				mHandler.removeMessages(MSG_CALLAPSE_COMMENT);
+				mHandler.sendEmptyMessageDelayed(MSG_CALLAPSE_COMMENT, CALLAPSE_DELAY);
 				RongUtil.sendTextMessage(msg_count, msg_number, mMsgEdit.getText().toString(), mActivityId);
 			}
 		});
@@ -163,7 +188,7 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 						PlayActivity.this.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								LikeAnimationUtil.excuteAnimation(PlayActivity.this, container, R.id.msg_like,
+								AnimationUtil.executeLikeAnimation(PlayActivity.this, container, R.id.msg_like,
 										SX, SY, DX, DY);
 								msg_count_text.setText("点赞数："+msg_count);
 							}
@@ -222,11 +247,14 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 							if(TextUtils.isEmpty(name)){
 								name="匿名";
 							}
-							mMsgShow.setText(name+":"+ret.optString("message"));
+							String str=name+":"+ret.optString("message");
+							AnimationUtil.addCommentItemView(PlayActivity.this,comment_container,str);
+							mHandler.removeMessages(MSG_CALLAPSE_COMMENT);
+							mHandler.sendEmptyMessageDelayed(MSG_CALLAPSE_COMMENT, CALLAPSE_DELAY);
 						}
 						if(type.equals("Like")){
-							LikeAnimationUtil.excuteAnimation(PlayActivity.this,container,R.id.msg_like,
-									SX,SY,DX,DY);
+							AnimationUtil.executeLikeAnimation(PlayActivity.this, container, R.id.msg_like,
+									SX, SY, DX, DY);
 						}
 					}
 				});

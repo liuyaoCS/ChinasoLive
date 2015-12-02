@@ -2,17 +2,19 @@ package com.chinaso.cl.Utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PointF;
-import android.os.Build;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chinaso.cl.R;
 
@@ -21,8 +23,9 @@ import java.util.Random;
 /**
  * Created by Administrator on 2015/12/2 0002.
  */
-public class LikeAnimationUtil {
+public class AnimationUtil {
 
+    private static final int COLLAPSE_ANIMATION_DURATION =1000;
     public static int ANIM_DURATION=1000;
     public static int[] heartIds=new int[]{R.mipmap.heart0,R.mipmap.heart1,R.mipmap.heart2,
             R.mipmap.heart3,R.mipmap.heart4,R.mipmap.heart5,
@@ -32,8 +35,8 @@ public class LikeAnimationUtil {
     /**
      *
      */
-    public static void excuteAnimation(Context context,final ViewGroup container,int viewId,
-                                 final int SX,final int SY,final int DX,final int DY) {
+    public static void executeLikeAnimation(Context context, final ViewGroup container, int viewId,
+                                            final int SX, final int SY, final int DX, final int DY) {
         final ImageView iv = new ImageView(context);
         Random random = new Random();
         int index = random.nextInt(heartIds.length);
@@ -71,5 +74,34 @@ public class LikeAnimationUtil {
             }
         });
         valueAnimator.start();
+    }
+    public static void executeCommentCollapseAnimation(final ViewGroup container){
+        ObjectAnimator animTrans=ObjectAnimator.ofFloat(container, "translationY", 0,0);
+        ObjectAnimator animAlpha=ObjectAnimator.ofFloat(container, "alpha", 1.0f,0f);
+
+        AnimatorSet animSet=new AnimatorSet();
+        animSet.playTogether(animTrans, animAlpha);
+        animSet.setDuration(COLLAPSE_ANIMATION_DURATION);
+        animSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                container.clearAnimation();
+            }
+        });
+        animSet.start();
+    }
+    public static void addCommentItemView(Context context,final ViewGroup container,String content){
+        TextView tv=new TextView(context);
+        tv.setPadding(DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3));
+        tv.setBackgroundColor(Color.parseColor("#80f0f0f0"));
+        tv.setText(content);
+        LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(DisplayUtil.Dp2Px(context,40), DisplayUtil.Dp2Px(context,3), 0, DisplayUtil.Dp2Px(context,3));
+        if(container.getChildCount()==5){
+            container.removeViewAt(0);
+        }
+        container.addView(tv,lp);
+        container.setAlpha(1.0f);
     }
 }

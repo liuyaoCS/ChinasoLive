@@ -53,43 +53,38 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="80dp"
             android:gravity="center_horizontal"
             android:visibility="visible" >
 
-            <RelativeLayout
-                android:id="@+id/layout_message_show"
+            <LinearLayout
+                android:id="@+id/comment_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/msg_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="80dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/click_default"
                 >
+            </ImageView>
 
-                <TextView
-                    android:id="@+id/msg_text_show"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="40dp"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:background="#f0f0f0"/>
+        </RelativeLayout>
 
-
-                <ImageView
-                    android:id="@+id/msg_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="80dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/bg_like"
-                    >
-                </ImageView>
-            </RelativeLayout>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -119,5 +114,7 @@
                     />
 
         </LinearLayout>
+
     </RelativeLayout>
+
 </RelativeLayout>
