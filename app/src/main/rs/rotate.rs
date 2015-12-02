@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.letv.recorder.utils.rs)
+#pragma rs java_package_name(com.letv.com.recorder.utils.rs)
 #pragma rs_fp_relaxed
 
 rs_allocation gIn;

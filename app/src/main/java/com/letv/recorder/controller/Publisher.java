@@ -54,11 +54,11 @@ public class Publisher {
         }
 
         if(getRecorder() != null) {
-            Log.d("CameraView2", "[==== recorder close]");
+            Log.d("CameraView2", "[==== com.recorder close]");
             getRecorder().close();
-            Log.d("CameraView2", "[==== recorder close finish]");
+            Log.d("CameraView2", "[==== com.recorder close finish]");
             getRecorder().release();
-            Log.d("CameraView2", "[==== recorder finish]");
+            Log.d("CameraView2", "[==== com.recorder finish]");
         }
 
     }

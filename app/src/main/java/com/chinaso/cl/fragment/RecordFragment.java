@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.chinaso.cl.R;
 import com.chinaso.cl.common.Constants;
 
-import recorder.upload.FlushFlowActivity;
+import com.recorder.upload.FlushFlowActivity;
 
 /**
  * A simple {@link Fragment} subclass.

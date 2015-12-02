@@ -1,4 +1,4 @@
-package recorder.play;
+package com.recorder.play;
 
 import android.content.Context;
 import android.view.View;

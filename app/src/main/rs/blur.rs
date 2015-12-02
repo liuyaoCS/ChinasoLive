@@ -1,6 +1,6 @@
 #pragma version(1)
 #pragma rs_fp_inprecise
-#pragma rs java_package_name(com.letv.recorder.utils.rs)
+#pragma rs java_package_name(com.letv.com.recorder.utils.rs)
 
 static unsigned short const stackblur_mul[255] =
 {

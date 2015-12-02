@@ -28,10 +28,10 @@ import com.chinaso.cl.image.ImageCacheManager;
 import java.util.Random;
 
 import io.rong.imlib.RongIMClient;
-import recorder.net.NetworkService;
-import recorder.net.model.UserCheckInfo;
-import recorder.net.model.VideoIdInfo;
-import recorder.upload.FlushFlowActivity;
+import com.recorder.net.NetworkService;
+import com.recorder.net.model.UserCheckInfo;
+import com.recorder.net.model.VideoIdInfo;
+import com.recorder.upload.FlushFlowActivity;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -51,14 +51,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //LeCloud.init(getApplicationContext());
+
         initView();
         initFragment();
         initResources();
         mImageCacheManager = new ImageCacheManager(this);
 
-//        Random random=new Random();
-//        int i=random.nextInt(10);
         createUser(Constants.USERID+new Random().nextInt(20));
     }
 

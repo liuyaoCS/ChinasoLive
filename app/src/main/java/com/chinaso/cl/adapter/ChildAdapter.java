@@ -13,7 +13,7 @@ import com.chinaso.cl.activity.MainActivity;
 
 import java.util.List;
 
-import recorder.net.model.LiveVideoListInfo;
+import com.recorder.net.model.LiveVideoListInfo;
 
 /**
  * Created by ly on 2015/11/14.

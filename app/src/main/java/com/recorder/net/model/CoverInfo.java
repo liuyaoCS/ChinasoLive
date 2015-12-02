@@ -1,4 +1,4 @@
-package recorder.net.model;
+package com.recorder.net.model;
 
 import java.io.Serializable;
 

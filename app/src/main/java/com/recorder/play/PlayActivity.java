@@ -1,4 +1,4 @@
-package recorder.play;
+package com.recorder.play;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -45,7 +45,6 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 	private TextView msg_number_text;
 	private TextView msg_count_text;
 
-
 	private int msg_count=0;
 	private int msg_number=0;
 
@@ -69,16 +68,16 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
 
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.vedio_layout);
+		this.setContentView(R.layout.activity_play);
 
 		Intent intent = getIntent();
 		mActivityId = intent.getStringExtra("activityID");
 		isHLS = intent.getBooleanExtra("isHLS", false);
 
+		initView();
 
 		RongIMClient.setOnReceiveMessageListener(PlayActivity.this);
 		RongUtil.joinChatRoom(mActivityId);
-		initView();
 
 	}
 

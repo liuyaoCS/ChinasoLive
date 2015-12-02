@@ -1,13 +1,12 @@
-package recorder.net;
+package com.recorder.net;
 
-import java.io.File;
 import java.util.List;
 
-import recorder.net.model.CoverInfo;
-import recorder.net.model.LiveVideoListInfo;
-import recorder.net.model.StopVideoInfo;
-import recorder.net.model.UserCheckInfo;
-import recorder.net.model.VideoIdInfo;
+import com.recorder.net.model.CoverInfo;
+import com.recorder.net.model.LiveVideoListInfo;
+import com.recorder.net.model.StopVideoInfo;
+import com.recorder.net.model.UserCheckInfo;
+import com.recorder.net.model.VideoIdInfo;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Multipart;

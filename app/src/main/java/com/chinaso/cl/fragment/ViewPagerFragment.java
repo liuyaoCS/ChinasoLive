@@ -15,9 +15,9 @@ import com.chinaso.cl.adapter.ChildAdapter;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import recorder.play.PlayActivity;
-import recorder.net.NetworkService;
-import recorder.net.model.LiveVideoListInfo;
+import com.recorder.play.PlayActivity;
+import com.recorder.net.NetworkService;
+import com.recorder.net.model.LiveVideoListInfo;
 
 import java.util.ArrayList;
 import java.util.List;

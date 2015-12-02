@@ -1,4 +1,4 @@
-package recorder.net;
+package com.recorder.net;
 
 import retrofit.RestAdapter;
 

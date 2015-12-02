@@ -1,9 +1,7 @@
 package com.letv.recorder.ui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,20 +9,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.SurfaceHolder.Callback;
-import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
-import com.letv.recorder.ui.RecorderDialogBuilder;
+
 import com.letv.recorder.ui.logic.UiObservable;
 import com.letv.recorder.util.NetworkUtils;
 import com.letv.recorder.util.ReUtils;
 import com.letv.recorder.util.ScreenUtils;
 import java.util.Observer;
 
-import recorder.upload.FlushFlowActivity;
+import com.recorder.upload.FlushFlowActivity;
 
 public class RecorderView extends RelativeLayout implements Callback {
     private static final String TAG = "CameraView2";

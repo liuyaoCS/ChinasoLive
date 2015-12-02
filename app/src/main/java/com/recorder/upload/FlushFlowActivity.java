@@ -1,4 +1,4 @@
-package recorder.upload;
+package com.recorder.upload;
 
 
 import android.app.Activity;
@@ -31,9 +31,9 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.TextMessage;
-import recorder.net.NetworkService;
-import recorder.net.model.CoverInfo;
-import recorder.net.model.StopVideoInfo;
+import com.recorder.net.NetworkService;
+import com.recorder.net.model.CoverInfo;
+import com.recorder.net.model.StopVideoInfo;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -76,15 +76,23 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 
 		setContentView(R.layout.activity_recorder);
 		Log.i("ly", "onCreate");
-		
+
+		initView();
+		initLetv();
+		initRongyun();
+
+		uploadCover();
+	}
+
+	private void initView(){
 		rv = (RecorderView) findViewById(R.id.rv);//获取rootView
 		msg_count_text = (TextView) findViewById(R.id.msg_like);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
 		msg_text_show= (TextView) findViewById(R.id.msg_text_show);
 		msg_like_show= (ImageView) findViewById(R.id.msg_like_show);
 		container= (RelativeLayout) findViewById(R.id.container);
-
-		//createVideo();
+	}
+	private void initLetv(){
 		mActivityId=getIntent().getStringExtra("activityId");
 		String userId = getIntent().getStringExtra("userId");
 		String secretKey = getIntent().getStringExtra("secretKey");
@@ -93,7 +101,8 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		initPublish();//初始化推流器
 		initSkin();//初始化皮肤
 		bindingPublish();//绑定推流器
-
+	}
+	private void initRongyun(){
 		RongIMClient.setOnReceiveMessageListener(FlushFlowActivity.this);
 		RongUtil.initChatRoom(mActivityId, new RongIMClient.OperationCallback() {
 			@Override
@@ -115,11 +124,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 				Log.e("ly", "init room error-->" + errorCode);
 			}
 		});
-
-		uploadCover();
 	}
-
-
 	private void stopVideo(){
 		NetworkService.getInstance().stopVideo(mActivityId, new Callback<StopVideoInfo>() {
 			@Override
@@ -136,7 +141,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	private void uploadCover(){
 		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 		photoPickerIntent.setType("image/*");
-		startActivityForResult(photoPickerIntent,0);
+		startActivityForResult(photoPickerIntent, 0);
 	}
 
 	@Override
@@ -200,7 +205,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		/**
 		 * onPause的时候要作的一些事情
 		 */
-		Log.i("ly","onPause");
+		Log.i("ly", "onPause");
 		if (recorderSkin != null) {
 			recorderSkin.onPause();
 		}
@@ -215,8 +220,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		}
 		stopVideo();
 		msg_number--;
-		RongUtil.quitChatRoom(mActivityId,msg_count,msg_number);
-		//RongIMClient.getInstance().logout();
+		RongUtil.quitChatRoom(mActivityId, msg_count, msg_number);
 	}
 
 	/**
