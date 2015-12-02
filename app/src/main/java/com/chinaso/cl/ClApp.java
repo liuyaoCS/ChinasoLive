@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.chinaso.cl.Utils.SPUtil;
 import com.lecloud.common.cde.LeCloud;
 
 import io.rong.imlib.RongIMClient;
@@ -30,6 +31,7 @@ public class ClApp extends Application{
              */
             RongIMClient.init(this);
         }
+        SPUtil.init(this);
     }
     public static String getCurProcessName(Context context) {
 
