@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.lecloud.skin.actionlive.MultLivePlayCenter;
+import com.letv.recorder.util.Log;
 
 /**
  * Created by rmss on 2015/11/20.

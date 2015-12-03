@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="60.0dp"
+        android:layout_height="0dp"
         android:background="@drawable/letv_pl_play_controller_bottom_bg"
         android:gravity="center_vertical" >
 

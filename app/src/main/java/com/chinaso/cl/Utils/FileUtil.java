@@ -71,7 +71,7 @@ public class FileUtil {
 	 */
 	public static boolean saveBitmap2File(Bitmap bmp, String filename) {
 		CompressFormat format = CompressFormat.JPEG;
-		int quality = 60;
+		int quality = 100;
 		OutputStream stream = null;
 		try {
 			stream = new FileOutputStream(filename);

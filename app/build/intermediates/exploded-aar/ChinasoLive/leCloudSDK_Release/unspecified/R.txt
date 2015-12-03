@@ -350,13 +350,10 @@ int layout letv_pl_play_full_play 0x7f03001b
 int layout letv_pl_play_full_sound 0x7f03001c
 int layout letv_play_video_layout 0x7f03001d
 int layout live_seek_bar_view 0x7f03001e
-int layout selector_pip_half_to_full 0x7f03001f
-int layout selector_pip_paly 0x7f030020
-int layout selector_pip_pause 0x7f030021
-int layout view_letf_vertical_progress 0x7f030022
-int layout view_right_vertical_progress 0x7f030023
-int layout view_streams_layout 0x7f030024
-int layout view_volume_seekbar 0x7f030025
+int layout view_letf_vertical_progress 0x7f03001f
+int layout view_right_vertical_progress 0x7f030020
+int layout view_streams_layout 0x7f030021
+int layout view_volume_seekbar 0x7f030022
 int menu main 0x7f080000
 int string action_settings 0x7f070000
 int string app_name 0x7f070001
