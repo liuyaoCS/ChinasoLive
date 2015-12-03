@@ -4,6 +4,8 @@ package com.recorder.upload;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import com.chinaso.cl.R;
 import com.chinaso.cl.Utils.AnimationUtil;
+import com.chinaso.cl.Utils.FileUtil;
 import com.chinaso.cl.Utils.RongUtil;
 import com.letv.recorder.controller.LetvPublisher;
 import com.letv.recorder.ui.RecorderSkin;
@@ -173,6 +176,7 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(data==null){
+			finish();
 			return;
 		}
 		Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
@@ -180,9 +184,8 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
 		String fileSrc = cursor.getString(idx);
 
-		File cover=new File(fileSrc);
-		Log.i("ly","file src-->"+fileSrc);
-
+		Log.i("ly", "file src-->" + fileSrc);
+		final File cover=FileUtil.compressFile(FlushFlowActivity.this,fileSrc);
 		String mimeType = "image/*";
 		TypedFile fileToSend = new TypedFile(mimeType, cover);
 
@@ -190,6 +193,11 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 			@Override
 			public void success(CoverInfo coverInfo, Response response) {
 				Log.i("ly", "upload cover success");
+				if (FileUtil.deleteFile(cover)) {
+					Log.i("ly", "delete file successfull");
+				} else {
+					Log.e("ly", "delete file err");
+				}
 			}
 
 			@Override
