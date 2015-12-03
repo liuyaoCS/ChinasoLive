@@ -37,7 +37,8 @@ public class AnimationUtil {
      */
     public static void executeLikeAnimation(Context context, final ViewGroup container, int viewId,
                                             final int SX, final int SY, final int DX, final int DY) {
-        final ImageView iv = new ImageView(context);
+        final ImageView iv=new ImageView(context);
+
         Random random = new Random();
         int index = random.nextInt(heartIds.length);
         iv.setImageDrawable(context.getResources().getDrawable(heartIds[index]));
@@ -92,15 +93,23 @@ public class AnimationUtil {
         animSet.start();
     }
     public static void addCommentItemView(Context context,final ViewGroup container,String content){
-        TextView tv=new TextView(context);
+        TextView tv;
+        if(container.getChildCount()==5){
+            tv= (TextView) container.getChildAt(0);
+            container.removeViewAt(0);
+        }else{
+            tv=new TextView(context);
+        }
+
         tv.setPadding(DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3),DisplayUtil.Dp2Px(context,3));
         tv.setBackgroundColor(Color.parseColor("#80f0f0f0"));
         tv.setText(content);
+        tv.setTextColor(Color.BLACK);
         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(DisplayUtil.Dp2Px(context,40), DisplayUtil.Dp2Px(context,3), 0, DisplayUtil.Dp2Px(context,3));
-        if(container.getChildCount()==5){
-            container.removeViewAt(0);
-        }
+//        if(container.getChildCount()==5){
+//            container.removeViewAt(0);
+//        }
         container.addView(tv,lp);
         container.setAlpha(1.0f);
     }
