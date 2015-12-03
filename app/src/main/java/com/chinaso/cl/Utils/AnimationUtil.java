@@ -18,26 +18,54 @@ import android.widget.TextView;
 
 import com.chinaso.cl.R;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
  * Created by Administrator on 2015/12/2 0002.
  */
 public class AnimationUtil {
-
+    //评论动画
     private static final int COLLAPSE_ANIMATION_DURATION =1000;
-    public static int ANIM_DURATION=1000;
+    private static final int COMMENT_VIEW_NUM=5;
+    //点赞动画
+    private static int ContainerBaseViewNumber=-1;
+    public static int CLICK_ANIMATION_DURATION =1000;
+    private static final int LIKE_VIEW_NUM=20;
+    private static Map<ImageView,ValueAnimator> map=new HashMap<ImageView,ValueAnimator>();
     public static int[] heartIds=new int[]{R.mipmap.heart0,R.mipmap.heart1,R.mipmap.heart2,
             R.mipmap.heart3,R.mipmap.heart4,R.mipmap.heart5,
             R.mipmap.heart6,R.mipmap.heart7,R.mipmap.heart8,
             R.mipmap.heart9,R.mipmap.heart10,R.mipmap.heart11};
 
-    /**
-     *
-     */
+
     public static void executeLikeAnimation(Context context, final ViewGroup container, int viewId,
                                             final int SX, final int SY, final int DX, final int DY) {
-        final ImageView iv=new ImageView(context);
+
+        if(ContainerBaseViewNumber==-1){
+            ContainerBaseViewNumber = container.getChildCount();
+        }
+
+        final ImageView iv;
+        ValueAnimator valueAnimator;
+        if(container.getChildCount()>=ContainerBaseViewNumber+LIKE_VIEW_NUM){
+            iv= (ImageView) container.getChildAt(ContainerBaseViewNumber);
+            valueAnimator=map.get(iv);
+            valueAnimator.cancel();
+            container.removeViewAt(ContainerBaseViewNumber);
+            Log.i("ly","reuse resource");
+        }else{
+            iv=new ImageView(context);
+            valueAnimator = ValueAnimator.ofObject(
+                    new BezierEvaluator(SX,SY,DX,DY), new PointF(SX, SY), new PointF(DX, DY));
+        }
+
+        iv.setX(SX);
+        iv.setY(SY);
+        iv.setAlpha(1.0f);
+        iv.setScaleX(1);
+        iv.setScaleY(1);
 
         Random random = new Random();
         int index = random.nextInt(heartIds.length);
@@ -47,8 +75,7 @@ public class AnimationUtil {
         lp.addRule(RelativeLayout.ALIGN_BOTTOM, viewId);
         container.addView(iv, lp);
 
-        final ValueAnimator valueAnimator = ValueAnimator.ofObject(new BezierEvaluator(SX,SY,DX,DY), new PointF(SX, SY), new PointF(DX, DY));
-        valueAnimator.setDuration(ANIM_DURATION);
+        valueAnimator.setDuration(CLICK_ANIMATION_DURATION);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -70,11 +97,13 @@ public class AnimationUtil {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                container.removeView(iv);
-                iv.setAlpha(0);
+                //container.removeView(iv);
+                iv.setAlpha(0.0f);
             }
         });
         valueAnimator.start();
+
+        map.put(iv,valueAnimator);
     }
     public static void executeCommentCollapseAnimation(final ViewGroup container){
         ObjectAnimator animTrans=ObjectAnimator.ofFloat(container, "translationY", 0,0);
@@ -94,7 +123,7 @@ public class AnimationUtil {
     }
     public static void addCommentItemView(Context context,final ViewGroup container,String content){
         TextView tv;
-        if(container.getChildCount()==5){
+        if(container.getChildCount()==COMMENT_VIEW_NUM){
             tv= (TextView) container.getChildAt(0);
             container.removeViewAt(0);
         }else{
@@ -107,9 +136,7 @@ public class AnimationUtil {
         tv.setTextColor(Color.BLACK);
         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(DisplayUtil.Dp2Px(context,40), DisplayUtil.Dp2Px(context,3), 0, DisplayUtil.Dp2Px(context,3));
-//        if(container.getChildCount()==5){
-//            container.removeViewAt(0);
-//        }
+
         container.addView(tv,lp);
         container.setAlpha(1.0f);
     }

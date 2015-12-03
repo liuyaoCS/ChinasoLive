@@ -54,7 +54,6 @@ public class FileUtil {
 				Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
 		if (sdCardExist) {
 			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
-			// Toast.makeText(this,sdDir.toString(),Toast.LENGTH_LONG).show();
 			return sdDir.toString();
 		} else {
 			Toast.makeText(context, "没有SD卡", Toast.LENGTH_LONG).show();

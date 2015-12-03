@@ -55,7 +55,6 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 	private String mActivityId;
 	private TextView msg_count_text;
 	private TextView msg_number_text;
-	//private TextView msg_text_show;
 	private ImageView msg_like_show;
 	private LinearLayout comment_container;
 
