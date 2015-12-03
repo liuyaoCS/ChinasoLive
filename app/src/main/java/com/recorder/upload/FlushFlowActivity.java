@@ -110,7 +110,6 @@ public class FlushFlowActivity extends Activity implements RongIMClient.OnReceiv
 		rv = (RecorderView) findViewById(R.id.rv);//获取rootView
 		msg_count_text = (TextView) findViewById(R.id.msg_like);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
-		//msg_text_show= (TextView) findViewById(R.id.msg_text_show);
 		msg_like_show= (ImageView) findViewById(R.id.msg_like_show);
 		likeContainer = (RelativeLayout) findViewById(R.id.container);
 		comment_container= (LinearLayout) findViewById(R.id.comment_container);

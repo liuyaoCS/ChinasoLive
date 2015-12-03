@@ -44,7 +44,6 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 	private EditText mMsgEdit;
 	private Button mMsgSend;
 
-	//private TextView mMsgShow;
 	private ImageView mMsgLike;
 
 	private TextView msg_number_text;
@@ -154,7 +153,6 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 		comment_container= (LinearLayout) findViewById(R.id.comment_container);
 		msg_count_text= (TextView) findViewById(R.id.msg_count);
 		msg_number_text= (TextView) findViewById(R.id.msg_number);
-		//mMsgShow= (TextView) findViewById(R.id.msg_text_show);
 		mMsgLike = (ImageView) this.findViewById(R.id.msg_like);
 		mMsgEdit= (EditText) findViewById(R.id.msg_edit);
 
@@ -163,7 +161,6 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 
 			@Override
 			public void onClick(View v) {
-				//mMsgShow.setText("我:"+mMsgEdit.getText().toString());
 				String str="我:"+mMsgEdit.getText().toString();
 				AnimationUtil.addCommentItemView(PlayActivity.this,comment_container,str);
 				mHandler.removeMessages(MSG_CALLAPSE_COMMENT);
@@ -230,7 +227,6 @@ public class PlayActivity extends Activity implements RongIMClient.OnReceiveMess
 		if (messageContent instanceof TextMessage) {//文本消息
 			final TextMessage textMessage = (TextMessage) messageContent;
 			Log.d("ly", "onReceived-TextMessage:" + textMessage.getContent());
-			//msg_count.setText(textMessage.getContent());
 			try {
 				final JSONObject ret=new JSONObject(textMessage.getContent());
 				msg_count=ret.getInt("count");
