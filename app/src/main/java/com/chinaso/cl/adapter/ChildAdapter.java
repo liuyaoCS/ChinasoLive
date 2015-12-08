@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chinaso.cl.R;
+import com.chinaso.cl.Utils.ValidityCheckUtil;
 import com.chinaso.cl.activity.MainActivity;
 
 import java.util.List;
@@ -55,8 +56,10 @@ public class ChildAdapter extends BaseAdapter{
             viewHolder= (ViewHolder) convertView.getTag();
         }
         viewHolder.uname.setText(mDataSets.get(position).getName());
-        ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getAvatar(), viewHolder.avatar, 0, 0);
-        ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getCover(),viewHolder.cover,0,0);
+        if(ValidityCheckUtil.isValidUrl(mDataSets.get(position).getAvatar())){
+            ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getAvatar(), viewHolder.avatar, 0, 0);
+            ((MainActivity)mContext).getImageCacheManager().loadImage(mDataSets.get(position).getCover(),viewHolder.cover,0,0);
+        }
         //viewHolder.cover.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.cover));
         return convertView;
     }
