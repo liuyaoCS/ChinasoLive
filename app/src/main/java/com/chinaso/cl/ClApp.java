@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.chinaso.cl.Utils.SPUtil;
 import com.lecloud.common.cde.LeCloud;
+import com.letv.recorder.util.Log;
 
 import io.rong.imlib.RongIMClient;
 
@@ -13,7 +14,6 @@ import io.rong.imlib.RongIMClient;
  * Created by rmss on 2015/11/18.
  */
 public class ClApp extends Application{
-    public static String TOKEN="";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,6 +32,7 @@ public class ClApp extends Application{
             RongIMClient.init(this);
         }
         SPUtil.init(this);
+
     }
     public static String getCurProcessName(Context context) {
 

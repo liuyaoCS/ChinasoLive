@@ -12,7 +12,7 @@ import com.chinaso.cl.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopFragment extends Fragment {
+public class TopFragment extends BaseFragment {
 
 
     public TopFragment() {

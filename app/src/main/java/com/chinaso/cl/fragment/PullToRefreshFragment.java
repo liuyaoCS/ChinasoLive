@@ -16,7 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PullToRefreshFragment extends Fragment {
+public class PullToRefreshFragment extends BaseFragment {
 
     PullToRefreshListView mListView;
     public PullToRefreshListView getPullToRefreshListView(){

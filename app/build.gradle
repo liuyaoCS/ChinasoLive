@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'chinasolive_key'
+            keyPassword '985910'
+            storeFile file('D:/project/work/ChinasoLive/chinasolive.jks')
+            storePassword '985910'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
-
     defaultConfig {
         applicationId "com.chinaso.cl"
         minSdkVersion 12
@@ -17,18 +24,26 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.0.0'
     //compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(':PullToRefreshLibrary')
     compile project(':ViewPagerIndicatorLibrary')
     compile project(':leCloudSDK_Release')
     //compile project(':letvRecorder')
     //compile files('libs/letvrecorder.jar')
-    compile files('libs/retrofit-1.9.0.jar')
     compile project(':IMLib')
+    compile project(':umsociallibrary')
+    compile files('libs/retrofit-1.9.0.jar')
+    compile files('libs/SocialSDK_WeiXin_1.jar')
+    compile files('libs/SocialSDK_WeiXin_2.jar')
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

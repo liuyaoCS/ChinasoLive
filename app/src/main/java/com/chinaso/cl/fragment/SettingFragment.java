@@ -12,7 +12,7 @@ import com.chinaso.cl.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingFragment extends Fragment {
+public class SettingFragment extends BaseFragment {
 
 
     public SettingFragment() {

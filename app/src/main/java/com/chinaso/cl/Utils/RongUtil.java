@@ -66,7 +66,7 @@ public class RongUtil {
             e.printStackTrace();
         }
         TextMessage txtMsg=TextMessage.obtain(content.toString());
-        UserInfo userInfo=new UserInfo(Constants.USERID,Constants.NAME, Uri.parse(Constants.AVATAR));
+        UserInfo userInfo=new UserInfo(Constants.USERID_DEFAULT,Constants.NAME_DEFAULT, Uri.parse(Constants.AVATAR_DEFAULT));
         txtMsg.setUserInfo(userInfo);
 
         sendMessage(txtMsg, chatroomId);
@@ -88,7 +88,7 @@ public class RongUtil {
             e.printStackTrace();
         }
         TextMessage txtMsg=TextMessage.obtain(content.toString());
-        UserInfo userInfo=new UserInfo(Constants.USERID,Constants.NAME, Uri.parse(Constants.AVATAR));
+        UserInfo userInfo=new UserInfo(Constants.USERID_DEFAULT,Constants.NAME_DEFAULT, Uri.parse(Constants.AVATAR_DEFAULT));
         txtMsg.setUserInfo(userInfo);
 
         sendMessage(txtMsg, chatroomId,callback);
@@ -111,7 +111,7 @@ public class RongUtil {
             e.printStackTrace();
         }
         TextMessage txtMsg=TextMessage.obtain(content.toString());
-        UserInfo userInfo=new UserInfo(Constants.USERID,Constants.NAME, Uri.parse(Constants.AVATAR));
+        UserInfo userInfo=new UserInfo(Constants.USERID_DEFAULT,Constants.NAME_DEFAULT, Uri.parse(Constants.AVATAR_DEFAULT));
         txtMsg.setUserInfo(userInfo);
 
         sendMessage(txtMsg, chatroomId);
@@ -133,7 +133,7 @@ public class RongUtil {
             e.printStackTrace();
         }
         TextMessage txtMsg=TextMessage.obtain(content.toString());
-        UserInfo userInfo=new UserInfo(Constants.USERID,Constants.NAME, Uri.parse(Constants.AVATAR));
+        UserInfo userInfo=new UserInfo(Constants.USERID_DEFAULT,Constants.NAME_DEFAULT, Uri.parse(Constants.AVATAR_DEFAULT));
         txtMsg.setUserInfo(userInfo);
 
         sendMessage(txtMsg, chatroomId);

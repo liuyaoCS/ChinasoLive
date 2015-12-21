@@ -13,11 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chinaso.cl.ClApp;
 import com.chinaso.cl.R;
 import com.chinaso.cl.common.Constants;
+import com.chinaso.cl.common.UserInfo;
 import com.chinaso.cl.fragment.DiscoveryFragment;
 import com.chinaso.cl.fragment.TopFragment;
 import com.chinaso.cl.fragment.SettingFragment;
@@ -25,11 +24,8 @@ import com.chinaso.cl.fragment.HomeFragment;
 import com.chinaso.cl.image.ImageCacheManager;
 
 
-import java.util.Random;
-
 import io.rong.imlib.RongIMClient;
 import com.recorder.net.NetworkService;
-import com.recorder.net.model.UserCheckInfo;
 import com.recorder.net.model.VideoIdInfo;
 import com.recorder.upload.FlushFlowActivity;
 import retrofit.Callback;
@@ -47,6 +43,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     Resources rs;
     int menuTextBgColor,menuTextBgCurrentColor;
     private ImageCacheManager mImageCacheManager;
+
+    private String nickname="";
+    private String headimgurl="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +57,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         initResources();
         mImageCacheManager = new ImageCacheManager(this);
 
-        createUser(Constants.USERID+new Random().nextInt(20));
+        Intent it=getIntent();
+        if(it.hasExtra("loginType")){
+           int type=it.getIntExtra("loginType",0);
+            if(type==1){
+                nickname=Constants.NAME_DEFAULT;
+                headimgurl=Constants.AVATAR_DEFAULT;
+            }else if(type==2){
+                nickname=UserInfo.nickname;
+                headimgurl=UserInfo.headimgurl;
+            }
+        }
+
     }
 
     @Override
@@ -68,49 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public ImageCacheManager getImageCacheManager() {
         return mImageCacheManager;
     }
-    private void createUser(String name) {
-        NetworkService.getInstance().getToken(name, new Callback<UserCheckInfo>() {
-            @Override
-            public void success(UserCheckInfo userInfo, Response response) {
-                ClApp.TOKEN = userInfo.getToken();
-                Log.i("ly", "get token success--" + ClApp.TOKEN);
-                checkToken();
-            }
 
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Toast.makeText(MainActivity.this, "获取token失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void checkToken() {
-        if(!TextUtils.isEmpty(ClApp.TOKEN)){
-            RongIMClient.connect(ClApp.TOKEN, new RongIMClient.ConnectCallback() {
-                @Override
-                public void onTokenIncorrect() {
-                    //Connect Token 失效的状态处理，需要重新获取 Token
-                    Log.e("ly", "onTokenIncorrect");
-                    Toast.makeText(MainActivity.this, "认证失败", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onSuccess(String userId) {
-                    //Log.i("MainActivity", "——onSuccess—-" + userId);
-                    //RongIMClient.setOnReceiveMessageListener(MainActivity.this);
-                    Log.i("ly", "——onSuccess—-" + userId);
-                    Toast.makeText(MainActivity.this, "用户" + userId + "登录成功", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    //Log.e("MainActivity", "——onError—-" + errorCode);
-                    Log.e("ly", "——onError—-" + errorCode);
-                    Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-    }
     private void initView(){
 
         home_text= (TextView) findViewById(R.id.home_text);
@@ -184,7 +153,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void createVideo(){
-        NetworkService.getInstance().createVideo(Constants.USERID,Constants.NAME,Constants.AVATAR,Constants.TITLE, new Callback<VideoIdInfo>() {
+        NetworkService.getInstance().createVideo(nickname, nickname,headimgurl,Constants.TITLE_DEFAULT, new Callback<VideoIdInfo>() {
             @Override
             public void success(VideoIdInfo videoIdInfo, Response response) {
                 String activityId = videoIdInfo.getLetvId();
