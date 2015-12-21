@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.umsociallibrary">
+
+    <application
+        android:allowBackup="true"
+        android:theme="@style/AppTheme">
+
+    </application>
+
+</manifest>
