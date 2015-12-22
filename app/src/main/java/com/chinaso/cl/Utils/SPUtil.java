@@ -16,7 +16,8 @@ public final class SPUtil {
      * 信息存储文件、键值
      */
 	public static final String FILENAME = "chinasolive";
-	public static final String KEY_TOKEN= "Token";
+	public static final String KEY_TOKEN_WEIXIN= "Token_weixin";
+    public static final String KEY_TOKEN_ANONYMOUS= "Token_anonymous";
 	
 	public static void init(Context context){
 		mContext=context;
@@ -26,16 +27,16 @@ public final class SPUtil {
     /**
      * 设置Token
      */
-    public static void setToken(String data){
-        setString(FILENAME,KEY_TOKEN,data);
+    public static void setToken(String data,String type){
+        setString(FILENAME,type,data);
     }
 
     /**
      * 读取Token
      * @return
      */
-    public static String getToken(){
-        return getString(FILENAME,KEY_TOKEN,"");
+    public static String getToken(String type){
+        return getString(FILENAME,type,"");
     }
 
     /**

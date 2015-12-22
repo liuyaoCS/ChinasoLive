@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity {
 
         mContext = this;
 
-        //com.umeng.socialize.utils.Log.LOG = true;
+        com.umeng.socialize.utils.Log.LOG = true;
         mController = UMServiceFactory.getUMSocialService(Constants.DESCRIPTOR);
         UMWXHandler wxHandler = new UMWXHandler(mContext, appId, appSecret);
         wxHandler.addToSocialSDK();
@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity {
         wlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                wLogin();
             }
         });
 
@@ -70,14 +70,23 @@ public class LoginActivity extends BaseActivity {
         nlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it=new Intent(mContext,MainActivity.class);
-                it.putExtra("loginType",1);
-                mContext.startActivity(it);
+                nLogin();
             }
         });
     }
-
-    private void login() {
+    private void nLogin(){
+        UserInfo.TOKEN=SPUtil.getToken(SPUtil.KEY_TOKEN_ANONYMOUS);
+        UserInfo.headimgurl=Constants.AVATAR_DEFAULT;
+        UserInfo.nickname=Constants.NAME_DEFAULT;
+        if(!TextUtils.isEmpty(UserInfo.TOKEN)){
+            Log.i("ly", "has token local,check");
+            checkToken();
+        }else{
+            Log.i("ly", "no local token,request");
+            createTokenByName(Constants.NAME_DEFAULT,SPUtil.KEY_TOKEN_ANONYMOUS);
+        }
+    }
+    private void wLogin() {
         mController.doOauthVerify(mContext, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA platform) {
@@ -137,13 +146,13 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "status-->" + status + " info-->" + info.toString(), Toast.LENGTH_SHORT).show();
 
                     if (!TextUtils.isEmpty(UserInfo.nickname)) {
-                        UserInfo.TOKEN=SPUtil.getToken();
+                        UserInfo.TOKEN=SPUtil.getToken(SPUtil.KEY_TOKEN_WEIXIN);
                         if(!TextUtils.isEmpty(UserInfo.TOKEN)){
                             Log.i("ly", "has token local,check");
                             checkToken();
                         }else{
                             Log.i("ly", "no local token,request");
-                            createTokenByName(UserInfo.nickname);
+                            createTokenByName(UserInfo.nickname,SPUtil.KEY_TOKEN_WEIXIN);
                         }
                     }
 
@@ -180,12 +189,12 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void createTokenByName(String name) {
+    private void createTokenByName(String name,final String tokenType) {
         NetworkService.getInstance().getToken(name, new Callback<UserCheckInfo>() {
             @Override
             public void success(UserCheckInfo userCheckInfo, Response response) {
                 UserInfo.TOKEN = userCheckInfo.getToken();
-                SPUtil.setToken(userCheckInfo.getToken());
+                SPUtil.setToken(userCheckInfo.getToken(),tokenType);
                 Log.i("ly", "get token success--" + UserInfo.TOKEN);
                 checkToken();
             }
@@ -211,8 +220,8 @@ public class LoginActivity extends BaseActivity {
                     Log.i("ly", "——onSuccess—-" + userId);
                     Toast.makeText(mContext, "用户" + userId + "登录成功", Toast.LENGTH_SHORT).show();
                     Intent it = new Intent(mContext, MainActivity.class);
-                    it.putExtra("loginType",2);
                     mContext.startActivity(it);
+                    finish();
                 }
 
                 @Override

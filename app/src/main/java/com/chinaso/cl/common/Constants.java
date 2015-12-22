@@ -8,7 +8,7 @@ public class Constants {
     public static String userId = "804113";
     public static String secretKey = "28bc72b321c11ef3395dcd1eedfbefca";
     /*rongyun*/
-    public static String USERID_DEFAULT ="userId";
+    public static String USERID_DEFAULT ="anonymousId";
     public static String NAME_DEFAULT ="匿名用户";
     public static String AVATAR_DEFAULT ="http://att2.citysbs.com/hangzhou/sns01/11_2011/18/middle_12496053674ec5d8845eed45.01819937.png";
     public static String TITLE_DEFAULT ="国搜直播";

@@ -44,9 +44,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     int menuTextBgColor,menuTextBgCurrentColor;
     private ImageCacheManager mImageCacheManager;
 
-    private String nickname="";
-    private String headimgurl="";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +53,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         initFragment();
         initResources();
         mImageCacheManager = new ImageCacheManager(this);
-
-        Intent it=getIntent();
-        if(it.hasExtra("loginType")){
-           int type=it.getIntExtra("loginType",0);
-            if(type==1){
-                nickname=Constants.NAME_DEFAULT;
-                headimgurl=Constants.AVATAR_DEFAULT;
-            }else if(type==2){
-                nickname=UserInfo.nickname;
-                headimgurl=UserInfo.headimgurl;
-            }
-        }
 
     }
 
@@ -153,7 +138,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     private void createVideo(){
-        NetworkService.getInstance().createVideo(nickname, nickname,headimgurl,Constants.TITLE_DEFAULT, new Callback<VideoIdInfo>() {
+        NetworkService.getInstance().createVideo(UserInfo.nickname,UserInfo.nickname,UserInfo.headimgurl,Constants.TITLE_DEFAULT, new Callback<VideoIdInfo>() {
             @Override
             public void success(VideoIdInfo videoIdInfo, Response response) {
                 String activityId = videoIdInfo.getLetvId();
